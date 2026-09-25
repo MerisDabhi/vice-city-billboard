@@ -14,7 +14,7 @@
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; overflow-x: clip; }
 body { margin: 0; background: var(--ink); overflow-x: hidden; }
 h1, h2, h3, p, ul, ol { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
@@ -78,10 +78,10 @@ kbd { font-family: var(--hud); }
 .letterbox--top { top: 0; } .letterbox--bottom { bottom: 0; }
 @keyframes letterbox { to { height: 7vh; } }
 
-.film-grain { position: fixed; inset: -50%; z-index: 9990; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+.film-grain { position: fixed; inset: 0; z-index: 9990; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: grain .9s steps(6) infinite; }
-@keyframes grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-3%, 2%); } 40% { transform: translate(2%, -3%); } 60% { transform: translate(-2%, -1%); } 80% { transform: translate(3%, 3%); } }
+@keyframes grain { 0% { background-position: 0 0; } 20% { background-position: -37px 23px; } 40% { background-position: 29px -41px; } 60% { background-position: -18px -12px; } 80% { background-position: 44px 31px; } }
 
 /* Loading-screen wipe between views */
 .wipe { position: fixed; inset: 0; z-index: 9000; pointer-events: all; overflow: hidden; }

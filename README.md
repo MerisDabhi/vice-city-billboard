@@ -13,6 +13,46 @@ over a fictional, 80s-soaked Vice City. There are eight spots:
 - Starlight Avenue bus shelter (portrait)
 - Cab 86 taxi topper
 
+## Screenshots
+
+![Landing page: the live Ocean Drive billboard, minimap and radio](docs/screenshots/02-landing.jpg)
+
+| | |
+|---|---|
+| ![Title screen](docs/screenshots/01-title-screen.jpg) | ![Mission briefing](docs/screenshots/05-mission-brief.jpg) |
+| **Title screen.** "Press any key", and VICE WAVE 88.1 starts. | **Mission 1 · The Brief.** Pick a hustle, load art, choose a spot, with a live preview. |
+
+### The studio, built on the Unlayer React Image Editor
+
+![The studio with the Unlayer React Image Editor](docs/screenshots/06-studio-unlayer-editor.jpg)
+
+### The City Reacts: hijacking a billboard
+
+| | |
+|---|---|
+| ![A rival ad is up](docs/screenshots/07-reveal-rival-ad.jpg) | ![Hijacking the feed](docs/screenshots/08-reveal-hijack.jpg) |
+| **1. The approach.** A rival ad owns the billboard. DJ Rico notices something's wrong. | **2. The hijack.** The ad corrupts while the hack panel runs to ACCESS GRANTED. |
+| ![Your art takes the sign](docs/screenshots/09-reveal-art-switch.jpg) | ![Takeover confirmed](docs/screenshots/10-takeover-confirmed.jpg) |
+| **3. The switch.** Flash, impact, and your artwork flickers onto the sign. | **4. Takeover confirmed.** Crowd flashes and reactions push the HYPE score up. |
+
+![City Legend status](docs/screenshots/11-city-legend.jpg)
+
+### Results and sharing
+
+![Result screen with the phone feed](docs/screenshots/12-result.jpg)
+
+| | |
+|---|---|
+| ![City-wide view of all eight spots](docs/screenshots/13-city-wide.jpg) | ![1080×1350 share card](docs/screenshots/14-share-card.jpg) |
+| **City-wide.** Your art on all 8 spots at once. | **Share card.** 1080×1350, ready for stories and feeds. |
+
+| | |
+|---|---|
+| ![Eight locations](docs/screenshots/03-eight-locations.jpg) | ![Mobile](docs/screenshots/15-mobile.jpg) |
+| **Eight spots** in a loading-screen collage. | **Mobile.** Every screen adapts to phones. |
+
+Regenerate the screenshots with `npm run dev`, then `node scripts/capture-screenshots.mjs`.
+
 ## Built with the Unlayer React Image Editor
 
 The creative studio is the official [Unlayer React Image Editor](https://github.com/unlayer/react-image-editor)
@@ -44,7 +84,13 @@ See `src/Studio.tsx` for the integration.
 2. **Landing:** a live billboard cycling ads, a minimap with location blips, a VCN news ticker, a loading-screen collage of all eight spots, the missions, and the radio stations.
 3. **Mission 1 · The Brief:** choose a hustle (Nightclub, Car Meet, New Music, Local Business, Wildcard), upload an image or use a starter poster, and pick a spot. A live viewfinder shows the art in place.
 4. **Mission 2 · The Studio:** the full Unlayer editor (crop, resize, filters, draw, text, shapes, stickers, frames), with category objectives, the target aspect ratio, and a "Preview on location" snapshot.
-5. **Mission 3 · The Takeover:** a cinematic reveal with letterbox bars, a drone push-in, a DJ subtitle, neon flicker (or, for the banner plane, a propeller fly-by that unfurls the banner), a flash, and a "TAKEOVER COMPLETE" card with stars and an impressions counter.
+5. **Mission 3 · The Takeover, "The City Reacts":** a cinematic hijack in six beats.
+   1. The camera pushes in on the chosen sign, which is showing a rival ad (ZIPPY COLA) while DJ Rico notices something's off.
+   2. The ad glitches (RGB split, static, tearing) inside the sign's own frame while a hack panel runs SIGNAL INTERCEPTED → HIJACKING FEED → ACCESS GRANTED.
+   3. A flash and impact, and the player's artwork flickers onto the sign. The banner plane unfurls instead.
+   4. **TAKEOVER CONFIRMED.** Crowd camera flashes and reaction bubbles feed a rolling **HYPE** score (for example +1,250 HYPE), with a synthesized crowd cheer.
+   5. A **CITY LEGEND** status stamp lands.
+   6. A zoom transition leads to the result screen. The HYPE score is printed on the share card.
 6. **Result:** wide, close-up and city-wide camera modes, switchable locations, and an in-game phone post that collects likes and comments. You can download a 1080×1350 share card, the full scene, or the artwork alone, or use native share.
 
 ## Sound
@@ -53,7 +99,7 @@ All audio is synthesized live with the Web Audio API, so there are no sample fil
 
 - **Three original radio stations:** VICE WAVE 88.1 (synthwave), NIGHT DRIVE 99.9 (outrun) and PALM FM 102.4 (chillwave).
 - **Controls:** press <kbd>Q</kbd> for the radio wheel and <kbd>M</kbd> to mute. Mute and station choices are remembered.
-- **Sound effects:** UI blips, whooshes, shutter, neon buzz, impact, riser, cash register and a takeover sting.
+- **Sound effects:** UI blips, whooshes, shutter, neon buzz, impact, riser, cash register, takeover sting, and for the hijack: glitch bursts, hack beeps, access-granted chirp, camera snaps, reaction pops, crowd cheer and a rank-up fanfare.
 - **Mood mixing:** the music is muffled while you edit and during the cutscene.
 
 ## Adding a location
