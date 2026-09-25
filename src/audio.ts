@@ -352,6 +352,59 @@ class AudioEngine {
     o.start(t); am.start(t); o.stop(t + dur + 0.05); am.stop(t + dur + 0.05);
     this.burst(t, dur, 'lowpass', 600, 0.12);
   }
+  // ─────────── Hijack + city-reaction sounds ───────────
+  /** A burst of corrupted-signal noise: chopped static with random digital squeals. */
+  glitch(dur = 0.35) {
+    if (!this.ready()) return; const t = this.ctx!.currentTime;
+    let x = t;
+    while (x < t + dur) {
+      const len = 0.015 + Math.random() * 0.05;
+      if (Math.random() > 0.35) this.burst(x, len, Math.random() > 0.5 ? 'bandpass' : 'highpass', 600 + Math.random() * 5000, 0.12 + Math.random() * 0.14);
+      if (Math.random() > 0.6) this.tone(300 + Math.random() * 2400, x, len, 'square', 0.04);
+      x += len + Math.random() * 0.03;
+    }
+  }
+  /** Rising terminal beep for the hijack progress bar. */
+  hackBeep(i = 0) { if (!this.ready()) return; this.tone(660 + i * 90, this.ctx!.currentTime, 0.05, 'square', 0.045); }
+  accessGranted() {
+    if (!this.ready()) return; const t = this.ctx!.currentTime;
+    [880, 1175, 1568].forEach((f, i) => this.tone(f, t + i * 0.07, 0.12, 'square', 0.06));
+    this.tone(2349, t + 0.21, 0.35, 'triangle', 0.08);
+  }
+  /** Tiny phone-camera shutter, randomly panned — someone in the crowd snapping a pic. */
+  snap() {
+    if (!this.ready()) return; const t = this.ctx!.currentTime, ctx = this.ctx!;
+    const pan = ctx.createStereoPanner(); pan.pan.value = Math.random() * 1.6 - 0.8; pan.connect(this.sfxBus);
+    const n = this.noiseSrc(t, 0.05), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    f.type = 'bandpass'; f.frequency.value = 3000 + Math.random() * 1500; this.env(g, t, 0.001, 0.09, 0.035);
+    n.connect(f).connect(g).connect(pan);
+  }
+  /** Bubbly pop for a reaction bubble; pitch climbs with each one. */
+  pop(i = 0) {
+    if (!this.ready()) return; const t = this.ctx!.currentTime;
+    this.tone(520 + i * 110, t, 0.09, 'sine', 0.14, 1200 + i * 160);
+    this.tone(2600 + i * 200, t + 0.02, 0.05, 'sine', 0.04);
+  }
+  /** A swelling crowd roar built from shaped noise. */
+  crowdCheer(dur = 2.8) {
+    if (!this.ready()) return; const t = this.ctx!.currentTime, ctx = this.ctx!;
+    for (const [freq, q, level] of [[900, 0.8, 0.22], [1800, 1.2, 0.12], [420, 0.7, 0.1]] as const) {
+      const n = this.noiseSrc(t, dur + 0.3), f = ctx.createBiquadFilter(), g = ctx.createGain(), wob = ctx.createOscillator(), wg = ctx.createGain();
+      f.type = 'bandpass'; f.frequency.value = freq; f.Q.value = q;
+      wob.frequency.value = 5 + Math.random() * 4; wg.gain.value = level * 0.35; wob.connect(wg).connect(g.gain);
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(level, t + 0.5); g.gain.setValueAtTime(level, t + dur - 0.9); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+      n.connect(f).connect(g); g.connect(this.sfxBus); g.connect(this.reverb);
+      wob.start(t); wob.stop(t + dur + 0.1);
+    }
+    for (let i = 0; i < 6; i++) this.tone(1800 + Math.random() * 900, t + 0.3 + Math.random() * (dur - 0.8), 0.25, 'sine', 0.025, 2600 + Math.random() * 600);
+  }
+  /** Status rank-up: a heavy stamp plus a bright ascending fanfare. */
+  rankUp() {
+    if (!this.ready()) return; const t = this.ctx!.currentTime;
+    this.impact();
+    [72, 76, 79, 84, 88].forEach((m, i) => { const f = 440 * 2 ** ((m - 69) / 12); this.tone(f, t + 0.08 + i * 0.07, 0.5, 'triangle', 0.09); this.tone(f * 2, t + 0.08 + i * 0.07, 0.3, 'sine', 0.03); });
+  }
+
   /** The big payoff: an original triumphant sting when a takeover goes live. */
   takeoverSting() {
     if (!this.ready()) return; const t = this.ctx!.currentTime, ctx = this.ctx!;

@@ -15,7 +15,7 @@ const comments = [
   ['lil.havana', 'the whole block is taking pictures'],
 ];
 
-export async function buildShareCard(scene: CityScene, artwork: string) {
+export async function buildShareCard(scene: CityScene, artwork: string, hype = 0) {
   const sceneCanvas = document.createElement('canvas');
   await renderScene(scene, artwork, sceneCanvas, 'contain', false);
   try { await Promise.all([document.fonts.load('100px Anton'), document.fonts.load("100px 'Mr Dafoe'"), document.fonts.load("600 20px 'Chakra Petch'")]); } catch { /* ignore */ }
@@ -48,7 +48,7 @@ export async function buildShareCard(scene: CityScene, artwork: string) {
   ctx.fillText(`${scene.type.toUpperCase()} · ${scene.district.toUpperCase()} · VICE CITY`, 70, 1140);
   // stars
   ctx.fillStyle = '#ffc94d'; ctx.font = '44px sans-serif'; ctx.fillText('★★★★★', 70, 1215);
-  ctx.font = "600 22px 'Chakra Petch', sans-serif"; ctx.fillStyle = 'rgba(255,240,250,.55)'; ctx.fillText('HYPE LEVEL: CITY LEGEND', 70, 1252);
+  ctx.font = "600 22px 'Chakra Petch', sans-serif"; ctx.fillStyle = 'rgba(255,240,250,.55)'; ctx.fillText(hype ? `+${hype.toLocaleString('en-US')} HYPE · STATUS: CITY LEGEND` : 'HYPE LEVEL: CITY LEGEND', 70, 1252);
   // footer
   ctx.fillStyle = '#ff3d8b'; ctx.fillRect(0, H - 70, W, 4);
   ctx.fillStyle = '#12071f'; ctx.fillRect(0, H - 66, W, 66);
@@ -95,8 +95,8 @@ function PhoneFeed({ image, scene, handle, setHandle }: { image: string; scene: 
   </div>;
 }
 
-export function Result({ artwork, sceneId, setSceneId, demo, onEdit, onNew, onCreate, onHome }: {
-  artwork: string; sceneId: SceneId; setSceneId: (id: SceneId) => void; demo: boolean; onEdit: () => void; onNew: () => void; onCreate: () => void; onHome: () => void;
+export function Result({ artwork, sceneId, setSceneId, demo, hype = 0, onEdit, onNew, onCreate, onHome }: {
+  artwork: string; sceneId: SceneId; hype?: number; setSceneId: (id: SceneId) => void; demo: boolean; onEdit: () => void; onNew: () => void; onCreate: () => void; onHome: () => void;
 }) {
   const scene = scenes.find(s => s.id === sceneId)!;
   const [view, setView] = useState<'wide' | 'close' | 'city'>('wide');
@@ -123,10 +123,10 @@ export function Result({ artwork, sceneId, setSceneId, demo, onEdit, onNew, onCr
   useEffect(() => {
     let alive = true;
     setCard(null);
-    buildShareCard(scene, artwork).then(canvasBlob).then(b => { if (alive) setCard(new File([b], 'vice-city-takeover.png', { type: 'image/png' })); }).catch(() => { /* built on demand instead */ });
+    buildShareCard(scene, artwork, hype).then(canvasBlob).then(b => { if (alive) setCard(new File([b], 'vice-city-takeover.png', { type: 'image/png' })); }).catch(() => { /* built on demand instead */ });
     return () => { alive = false; };
-  }, [scene, artwork]);
-  const getCard = async () => card ?? new File([await canvasBlob(await buildShareCard(scene, artwork))], 'vice-city-takeover.png', { type: 'image/png' });
+  }, [scene, artwork, hype]);
+  const getCard = async () => card ?? new File([await canvasBlob(await buildShareCard(scene, artwork, hype))], 'vice-city-takeover.png', { type: 'image/png' });
 
   const shareUrl = window.location.origin;
   const headline = `I just took over ${scene.title} in Vice City 🌴✨ My art is live on the ${scene.type.toLowerCase()}.`;

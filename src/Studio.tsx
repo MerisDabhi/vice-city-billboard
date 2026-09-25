@@ -148,7 +148,8 @@ export default function Studio({ initialScene, demo, onExit, onRestart, onHype, 
     audio.shutter();
     setSnap(image);
   }
-  const finishReveal = useCallback(() => setStage('result'), []);
+  const [hypeScore, setHypeScore] = useState(0);
+  const finishReveal = useCallback((hype: number) => { setHypeScore(hype); setStage('result'); }, []);
 
   const ratio = ratioOf(scene);
   const ratioLabel = ratio < 1 ? `1 : ${(1 / ratio).toFixed(1)}` : `${ratio.toFixed(1)} : 1`;
@@ -274,7 +275,7 @@ export default function Studio({ initialScene, demo, onExit, onRestart, onHype, 
     {stage === 'reveal' && editedImage && <Reveal scene={scene} artwork={editedImage} demo={isDemo} onDone={finishReveal} />}
     {stage === 'reveal' && !editedImage && <div className="reveal reveal--loading" />}
 
-    {stage === 'result' && editedImage && <Result artwork={editedImage} sceneId={sceneId} setSceneId={setSceneId} demo={isDemo}
+    {stage === 'result' && editedImage && <Result artwork={editedImage} sceneId={sceneId} setSceneId={setSceneId} demo={isDemo} hype={hypeScore}
       onEdit={() => { setSourceImage(editedImage); setSourceKind('upload'); setFilename('Your published artwork'); setEditorKey(k => k + 1); setStage('editor'); }}
       onNew={onRestart} onCreate={() => { setIsDemo(false); setEditedImage(''); setStage('brief'); }} onHome={onExit} />}
 

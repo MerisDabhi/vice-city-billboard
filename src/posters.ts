@@ -1,7 +1,7 @@
 // Starter artwork is painted at runtime so it uses the real brand fonts and stays
 // crisp — every poster is original, 80s-inspired ad art for the fictional city.
 
-export type PosterId = 'nightclub' | 'car-meet' | 'music' | 'business' | 'custom' | 'hero';
+export type PosterId = 'nightclub' | 'car-meet' | 'music' | 'business' | 'custom' | 'hero' | 'rival';
 
 interface PosterSpec {
   sky: string[];
@@ -44,6 +44,12 @@ const specs: Record<PosterId, PosterSpec> = {
     sky: ['#063a4c', '#0f8c9b', '#ffcf7a', '#ff8a5b'], sun: ['#fff6b0', '#ffb347'],
     title: ['COCO BEACH', 'SURF CO.'], titleFill: ['#ffffff', '#fff1c1', '#ffcf5a'],
     script: 'since 1986', scriptColor: '#ff5d8f', kicker: 'BOARDS · WAX · GOOD VIBES', tagline: 'VICE BEACH BOARDWALK · OPEN SUNRISE TO SUNSET', accent: '#ff5d8f', motif: 'waves',
+  },
+  // The corporate ad that's already up when the player hijacks a spot.
+  rival: {
+    sky: ['#2a0010', '#8c0c2a', '#ff4a3d', '#ffb36b'], sun: ['#fff3b0', '#ff5a3d'],
+    title: ['ZIPPY', 'COLA'], titleFill: ['#ffffff', '#ffe3e3', '#ff2d3f'],
+    script: 'taste the 80s', scriptColor: '#fff3b0', kicker: 'NOW WITH 20% MORE FIZZ', tagline: 'ICE COLD · ON EVERY CORNER OF VICE CITY', accent: '#ffe45c', motif: 'sun',
   },
   custom: {
     sky: ['#120524', '#3a0f5c', '#b31d7b', '#ff6b4a'],
