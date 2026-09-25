@@ -26,6 +26,8 @@ over a fictional, 80s-soaked Vice City. There are eight spots:
 
 ![The studio with the Unlayer React Image Editor](docs/screenshots/06-studio-unlayer-editor.jpg)
 
+![How it works: three missions, with the Unlayer React Image Editor highlighted](docs/screenshots/04-missions.jpg)
+
 ### The City Reacts: hijacking a billboard
 
 | | |
